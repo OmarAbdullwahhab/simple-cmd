@@ -15,7 +15,6 @@ public class SimpleApplication {
         optionsList.add(new CommandLineOption(5,"Sub application", false));
         optionsList.add(new CommandLineOption(100,"Exit", true));
         var listener = new CommandLineOptionListener(){
-
             @Override
             public void optionSelected(CommandLineOptionEvent event) {
                 var option  = event.getOption();

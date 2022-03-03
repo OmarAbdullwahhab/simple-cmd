@@ -15,7 +15,7 @@ public class CommandLineApp {
     public CommandLineApp(CommandLineOptionListener listener, List<CommandLineOption> options) {
         this.options = options;
         this.listener = listener;
-        if(this.options!=null){
+        if (this.options != null) {
             this.options.sort(new Comparator<CommandLineOption>() {
                 @Override
                 public int compare(CommandLineOption o1, CommandLineOption o2) {
@@ -47,6 +47,7 @@ public class CommandLineApp {
 
     /**
      * reads the option entered by the user
+     *
      * @return
      * @throws IOException
      */
@@ -61,22 +62,25 @@ public class CommandLineApp {
     /**
      * used to start looping through the options provided by developer as List<CommandLineOption>
      */
-    public void start()  {
+    public void start() {
         try {
-        this.printOptions();
-        final int opt = this.readOption();
-        var found = this.options.stream().filter(x->x.getNumber() == opt).findFirst();
-        if(found.isEmpty())
-        {
-            System.out.println("Invalid option!");
-            start();
-        }
-        while (found.isPresent() && !found.get().isEndOption()) {
-            this.listener.optionSelected(new CommandLineOptionEvent(found.get()));
             this.printOptions();
-            final int opt2 = this.readOption();
-            found  = this.options.stream().filter(x->x.getNumber() == opt2).findFirst();
-        }
+            final int opt = this.readOption();
+            var found = this.options.stream().filter(x -> x.getNumber() == opt).findFirst();
+            if (found.isEmpty()) {
+                System.out.println("Invalid option!");
+                start();
+            }
+            while (found.isPresent() && !found.get().isEndOption()) {
+                this.listener.optionSelected(new CommandLineOptionEvent(found.get()));
+                this.printOptions();
+                final int opt2 = this.readOption();
+                found = this.options.stream().filter(x -> x.getNumber() == opt2).findFirst();
+                if (found.isEmpty()) {
+                    System.out.println("Invalid option!");
+                    start();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
