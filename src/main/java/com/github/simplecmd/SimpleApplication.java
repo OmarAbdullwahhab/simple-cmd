@@ -22,7 +22,7 @@ public class SimpleApplication {
                 switch (option.getNumber()){
                     case 1 -> System.out.println("Value is added");
                     case 2 -> System.out.println("Value is edited");
-                    case 3 -> System.out.println("Value is deleted");
+                    case 7 -> System.out.println("Value is deleted");
                     case 4 -> System.out.println("Value is displayed");
                     case 5 -> {
                         var subOptions = new ArrayList<CommandLineOption>();

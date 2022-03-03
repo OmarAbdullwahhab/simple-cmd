@@ -36,9 +36,11 @@ public class CommandLineApp {
 
         for (int i = 0; i < options.size(); i++) {
 
+            sb.append("\t");
             sb.append(options.get(i).getNumber()).append(" - ").append(options.get(i).getText());
             sb.append("\n");
         }
+        System.out.println("Please select an option:");
         System.out.println(sb.toString());
 
     }
@@ -63,12 +65,17 @@ public class CommandLineApp {
         try {
         this.printOptions();
         final int opt = this.readOption();
-        var option = this.options.stream().filter(x->x.getNumber() == opt).findFirst().get();
-        while (!option.isEndOption()) {
-            this.listener.optionSelected(new CommandLineOptionEvent(option));
+        var found = this.options.stream().filter(x->x.getNumber() == opt).findFirst();
+        if(found.isEmpty())
+        {
+            System.out.println("Invalid option!");
+            start();
+        }
+        while (found.isPresent() && !found.get().isEndOption()) {
+            this.listener.optionSelected(new CommandLineOptionEvent(found.get()));
             this.printOptions();
             final int opt2 = this.readOption();
-            option  = this.options.stream().filter(x->x.getNumber() == opt2).findFirst().get();
+            found  = this.options.stream().filter(x->x.getNumber() == opt2).findFirst();
         }
         } catch (IOException e) {
             e.printStackTrace();
